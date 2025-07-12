@@ -1,3 +1,5 @@
+import { StudentProfile } from "@/util/api/student.api";
+import useAuth from "@/util/context/AuthContext";
 import {
 	Card,
 	Group,
@@ -11,6 +13,7 @@ import {
 } from "@mantine/core";
 import { IconBook } from "@tabler/icons-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const studentData = {
 	fullName: "John Doe",
@@ -24,6 +27,25 @@ const studentData = {
 };
 
 export default function Profile() {
+	const [profileData, setProfileData] = useState({
+		fullname: "",
+		username: "",
+		dob: "",
+		courses: [],
+	});
+
+	const { user } = useAuth();
+
+	useEffect(() => {
+		async function getData() {
+			const res = await StudentProfile(user.token);
+			if (!res) {
+				setProfileData(res.rest);
+			}
+		}
+		getData();
+	}, []);
+
 	return (
 		<Box maw={500} mx="auto" my={40}>
 			<Card shadow="md" padding="xl" radius="md" withBorder>
@@ -36,19 +58,19 @@ export default function Profile() {
 						<Text span fw={500}>
 							Full Name:
 						</Text>{" "}
-						{studentData.fullName}
+						{profileData.fullname}
 					</Text>
 					<Text>
 						<Text span fw={500}>
 							Username:
 						</Text>{" "}
-						{studentData.username}
+						{profileData.username}
 					</Text>
 					<Text>
 						<Text span fw={500}>
 							Date of Birth:
 						</Text>{" "}
-						{studentData.dob}
+						{profileData.dob}
 					</Text>
 				</Group>
 				<Divider mb="md" />

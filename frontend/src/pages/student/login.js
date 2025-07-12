@@ -15,19 +15,25 @@ import Link from "next/link";
 import { StudentLogin } from "@/util/api/student.api";
 import { useState } from "react";
 import useAuth from "@/util/context/AuthContext";
+import { useRouter } from "next/router";
 
 export default function Login() {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 
+	const [isLoading, setIsLoading] = useState(false);
+
+	const router = useRouter();
 	const { setUser } = useAuth();
 
 	async function submit() {
+		setIsLoading(true);
 		const res = await StudentLogin(username, password);
+		setIsLoading(false);
 
 		setUser({ username, token: res.token, role: "student" });
 
-		console.log(res);
+		router.push("/student/profile");
 	}
 
 	return (
@@ -65,7 +71,12 @@ export default function Login() {
 						Forgot password?
 					</Anchor>
 				</Group>
-				<Button fullWidth mt="xl" radius="md" onClick={submit}>
+				<Button
+					fullWidth
+					mt="xl"
+					radius="md"
+					onClick={submit}
+					loading={isLoading}>
 					Sign in
 				</Button>
 			</Paper>

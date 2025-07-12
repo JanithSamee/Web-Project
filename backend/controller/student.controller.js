@@ -52,8 +52,25 @@ async function register(req, res) {
 }
 
 //profile
+async function profile(req, res) {
+	try {
+		const ID = req.user;
+		const user = await Student.findById(ID);
+
+		if (!user) {
+			return res.status(404).json({ msg: "Student Not Found" });
+		} else {
+			const { password, ...rest } = user._doc;
+			res.json({ rest });
+		}
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({ msg: "Error Occurred!", error });
+	}
+}
 
 module.exports = {
 	login,
 	register,
+	profile,
 };

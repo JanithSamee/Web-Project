@@ -12,5 +12,18 @@ async function StudentLogin(username, password) {
 		return { error: "Error" };
 	}
 }
+async function StudentProfile(token) {
+	try {
+		const res = await BASE_URL.get("/student/profile", {
+			headers: {
+				Authorization: "Bearer " + token,
+			},
+		});
 
-export { StudentLogin };
+		return res.data;
+	} catch (error) {
+		return { error: "Error" };
+	}
+}
+
+export { StudentLogin, StudentProfile };
