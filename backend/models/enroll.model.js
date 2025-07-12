@@ -16,7 +16,6 @@ const enrollmentSchema = new mongoose.Schema(
 	{ timestamps: true }
 );
 
-// Ensure a student can enroll in a specific course only once
 enrollmentSchema.index({ student: 1, course: 1 }, { unique: true });
 
 module.exports = mongoose.model("Enrollment", enrollmentSchema);
