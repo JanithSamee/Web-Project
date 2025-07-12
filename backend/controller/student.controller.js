@@ -1,5 +1,7 @@
 const Student = require("../models/student.model");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
 // login
 async function login(req, res) {
 	try {
@@ -14,8 +16,12 @@ async function login(req, res) {
 			if (!valid) {
 				return res.status(401).json({ msg: "Invalid Credentials!" });
 			} else {
-				//TODO: implement JWT
-				res.json(user);
+				const token = jwt.sign(
+					{ _id: user._id, role: "student" },
+					"12345"
+				);
+
+				res.json({ token });
 			}
 		}
 	} catch (error) {

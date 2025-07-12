@@ -14,13 +14,19 @@ import classes from "@/styles/common.module.css";
 import Link from "next/link";
 import { StudentLogin } from "@/util/api/student.api";
 import { useState } from "react";
+import useAuth from "@/util/context/AuthContext";
 
 export default function Login() {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 
+	const { setUser } = useAuth();
+
 	async function submit() {
 		const res = await StudentLogin(username, password);
+
+		setUser({ username, token: res.token, role: "student" });
+
 		console.log(res);
 	}
 
