@@ -12,8 +12,18 @@ import {
 } from "@mantine/core";
 import classes from "@/styles/common.module.css";
 import Link from "next/link";
+import { StudentLogin } from "@/util/api/student.api";
+import { useState } from "react";
 
 export default function Login() {
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
+
+	async function submit() {
+		const res = await StudentLogin(username, password);
+		console.log(res);
+	}
+
 	return (
 		<Container size={420} my={40}>
 			<Title ta="center" className={classes.title}>
@@ -22,17 +32,17 @@ export default function Login() {
 
 			<Text className={classes.subtitle}>
 				Do not have an account yet?{" "}
-				<Link href="/student/register">
-					<Anchor>Create account</Anchor>
-				</Link>
+				<Link href="/student/register">Create account</Link>
 			</Text>
 
 			<Paper withBorder shadow="sm" p={22} mt={30} radius="md">
 				<TextInput
-					label="Email"
-					placeholder="you@mantine.dev"
+					label="Username"
+					placeholder="Username"
 					required
 					radius="md"
+					onChange={(e) => setUsername(e.target.value)}
+					value={username}
 				/>
 				<PasswordInput
 					label="Password"
@@ -40,6 +50,8 @@ export default function Login() {
 					required
 					mt="md"
 					radius="md"
+					onChange={(e) => setPassword(e.target.value)}
+					value={password}
 				/>
 				<Group justify="space-between" mt="lg">
 					<Checkbox label="Remember me" />
@@ -47,7 +59,7 @@ export default function Login() {
 						Forgot password?
 					</Anchor>
 				</Group>
-				<Button fullWidth mt="xl" radius="md">
+				<Button fullWidth mt="xl" radius="md" onClick={submit}>
 					Sign in
 				</Button>
 			</Paper>

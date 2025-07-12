@@ -22,9 +22,7 @@ export default function Register() {
 
 			<Text className={classes.subtitle}>
 				Already Have an Account?{" "}
-				<Link href="/student/login">
-					<Anchor>Login Here</Anchor>
-				</Link>
+				<Link href="/student/login">Login Here</Link>
 			</Text>
 
 			<Paper withBorder shadow="sm" p={22} mt={30} radius="md">
