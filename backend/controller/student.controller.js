@@ -18,7 +18,8 @@ async function login(req, res) {
 			} else {
 				const token = jwt.sign(
 					{ _id: user._id, role: "student" },
-					"12345"
+					"12345",
+					{ expiresIn: "1h" }
 				);
 
 				res.json({ token });

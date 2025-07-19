@@ -32,7 +32,7 @@ export default function Login() {
 		setIsLoading(false);
 
 		setUser({ username, token: res.token, role: "student" });
-
+		localStorage.setItem("token", res.token);
 		router.push("/student/profile");
 	}
 

@@ -38,9 +38,12 @@ export default function Profile() {
 
 	useEffect(() => {
 		async function getData() {
+			console.log("profile page");
 			const res = await StudentProfile(user.token);
-			if (!res) {
-				setProfileData(res.rest);
+			console.log(user);
+			if (res) {
+				console.log(res);
+				res.rest && setProfileData(res.rest);
 			}
 		}
 		getData();
@@ -58,19 +61,19 @@ export default function Profile() {
 						<Text span fw={500}>
 							Full Name:
 						</Text>{" "}
-						{profileData.fullname}
+						{profileData.fullname || "-"}
 					</Text>
 					<Text>
 						<Text span fw={500}>
 							Username:
 						</Text>{" "}
-						{profileData.username}
+						{profileData.username || "-"}
 					</Text>
 					<Text>
 						<Text span fw={500}>
 							Date of Birth:
 						</Text>{" "}
-						{profileData.dob}
+						{profileData.dob || "-"}
 					</Text>
 				</Group>
 				<Divider mb="md" />
